@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ps" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>د شاګردانو د ثبت سیستم</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo" id="sideLogo">م</div><div><b id="sideSchool">د مدرسې نوم</b><small>د شاګردانو د ثبت سیستم</small></div></div>
+  <nav id="nav">
+    <button data-page="home" class="active">🏠 کور</button>
+    <button data-page="register">➕ شاګرد ثبتول</button>
+    <button data-page="students">👥 د شاګردانو لېست</button>
+    <button data-page="school">🏫 د مدرسې معلومات</button>
+    <button data-page="exams">📚 د امتحان لېست</button>
+    <button data-page="backup">💾 بېک آپ</button>
+    <button data-page="services">🧰 خدمتونه</button>
+    <button data-page="about">ℹ️ زمونږ او اپلیکېشن په اړه</button>
+    <button data-page="settings">⚙️ تنظیمات</button>
+  </nav>
+  <button class="exit" id="exitBtn">سافټویر بندول</button>
+</aside>
+<main class="main">
+<header><div><h1 id="pageTitle">کور</h1><p id="dateLabel"></p></div><span class="chip">آفلاین نسخه</span></header>
+
+<section class="page" id="home">
+ <div class="welcome"><h2>ښه راغلاست د شاګردانو د ثبت سیستم ته</h2><p>دلته تاسو کولای شئ په اسان ډول سره شاګردان ثبت کړئ او نتیجه لاس ته راوړئ.</p></div>
+ <div class="stats">
+  <article><small>ټول ثبت شوي شاګردان</small><strong id="totalStudents">0</strong></article>
+  <article><small>ټولې درجې</small><strong id="totalGrades">0</strong></article>
+  <article><small>د نن ورځې ثبتونه</small><strong id="todayAdmissions">0</strong></article>
+  <article><small>ثبت شوې نتیجې</small><strong id="totalResults">0</strong></article>
+ </div>
+ <div class="panel"><h3>وروستي ثبت شوي شاګردان</h3><div class="tablewrap"><table><thead><tr><th>عکس</th><th>نوم</th><th>د پلار نوم</th><th>د نيکه نوم</th><th>درجه</th><th>د سرپرست شمېره</th><th>نېټه</th></tr></thead><tbody id="recentTable"></tbody></table></div></div>
+ <footer>جوړونکی: محمد هاشم سعید — سپین بولدک، کندهار، افغانستان</footer>
+</section>
+
+<section class="page hidden" id="register">
+ <div class="panel"><h3 id="registerTitle">د نوي شاګرد ثبت</h3><form id="studentForm" class="grid">
+ <input type="hidden" id="editId">
+ <label>نوم<input id="sName" required></label><label>د پلار نوم<input id="sFather" required></label>
+ <label>د نيکه نوم<input id="sGrand" required></label><label>د اوسني سرپرست نوم<input id="sGuardian"></label>
+ <label>د سرپرست شمېره<input id="sGuardianPhone"></label><label>د شاګرد شمېره<input id="sPhone"></label>
+ <label>مخکنۍ تعليمي صنف<select id="sPrevious"></select></label><label>اوسنی تعلیمي صنف<select id="sGrade" required></select></label>
+ <label>د داخلېدو نېټه<input id="sDate" type="date" required></label><label>د تذکرې شمېره<input id="sTazkira"></label>
+ <label>عمر<input id="sAge" type="number" min="1" max="120"></label><label>له سرپرست سره قرابت<input id="sRelation" placeholder="اکا، ماما، ورور، پلار..."></label>
+ <label class="wide">د شاګرد عکس — د کامرې له لارې یا له حافظې څخه
+  <div class="photo-actions"><button type="button" class="btn" id="cameraBtn">📷 د کامرې له لارې عکس</button><label class="btn filebtn">له حافظې څخه<input id="photoFile" type="file" accept="image/*"></label></div>
+  <video id="camera" class="hidden" autoplay playsinline></video><canvas id="cameraCanvas" class="hidden"></canvas><img id="photoPreview" class="preview hidden" alt="د شاګرد عکس">
+  <button type="button" class="btn hidden" id="takePhoto">عکس واخلئ</button><button type="button" class="btn hidden" id="stopCamera">کمره بنده کړئ</button>
+ </label>
+ <label class="wide">د شاګرد اړوند یاداښت<textarea id="sNote" rows="3"></textarea></label>
+ <div class="wide actions"><button class="primary">ثبتول</button><button type="reset" class="btn" id="clearStudent">پاکول</button><button type="button" class="btn" data-goto="students">ټول شاګردان</button></div>
+ </form></div>
+</section>
+
+<section class="page hidden" id="students">
+ <div class="panel"><div class="toolbar"><button class="primary" data-goto="register">نوی شاګرد ثبتول</button><input id="studentSearch" placeholder="د نوم، پلار نوم، شمېره لټون..."><select id="gradeFilter"><option value="">ټولې درجې</option></select><button class="btn danger" id="deleteSelected">انتخاب شوی شاګرد حذف کول</button></div>
+ <div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="selectAll"></th><th>عکس</th><th>شمېره</th><th>نوم</th><th>پلار</th><th>نيکه</th><th>درجه</th><th>سرپرست</th><th>نېټه</th><th>کړنې</th></tr></thead><tbody id="studentsTable"></tbody></table></div></div>
+</section>
+
+<section class="page hidden" id="school">
+ <div class="panel"><h3>د مدرسې معلومات</h3><form id="schoolForm" class="grid">
+ <label>کوډ<input id="schoolCode"></label><label>بشپړ نوم<input id="schoolName" required></label>
+ <label>لنډ نوم<input id="schoolShort"></label><label>بشپړ ادرس<input id="schoolFullAddress"></label>
+ <label>ولایت<select id="province"><option value="">ولایت وټاکئ</option></select></label><label>ولسوالي<input id="district"></label>
+ <label>کلی<input id="village"></label><label>د مهتمم نوم<input id="headName"></label>
+ <label>د مهتمم نمبر<input id="headPhone"></label><label>د مهتمم عکس<input id="headPhoto" type="file" accept="image/*"></label>
+ <label>د ناظم نوم<input id="nazimName"></label><label>د ناظم نمبر<input id="nazimPhone"></label>
+ <label>د ناظم عکس<input id="nazimPhoto" type="file" accept="image/*"></label><label>د سافټویر چلوونکي نوم<input id="operatorName"></label>
+ <label>د سافټویر چلوونکي نمبر<input id="operatorPhone"></label>
+ <label class="wide">د مدرسې لوګو<input id="schoolLogo" type="file" accept="image/*"><img id="schoolLogoPreview" class="preview hidden"></label>
+ <div class="wide panel inner"><h3>د استادانو نوملړ</h3><div class="grid"><label>د استاد نوم<input id="teacherName"></label><label>د پلار نوم<input id="teacherFather"></label><label>شمېره<input id="teacherPhone"></label><label>عکس<input id="teacherPhoto" type="file" accept="image/*"></label></div><button type="button" class="btn" id="addTeacher">+ استاد اضافه کړئ</button><div id="teacherList"></div></div>
+ <div class="wide actions"><button class="primary">معلومات خوندي کول</button></div></form></div>
+</section>
+
+<section class="page hidden" id="exams">
+ <div class="panel"><h3>د امتحان نتیجه ثبتول</h3><form id="examForm" class="grid">
+ <label>شاګرد<select id="examStudent" required></select></label><label>درجه<select id="examGrade"></select></label>
+ <label>د امتحان نوم<input id="examName" placeholder="شش ماهه، سه ماهه، سالانه" required></label><label>نېټه<input id="examDate" type="date" required></label>
+ <div class="wide"><h3>د درجې کتابونه او نمرې</h3><div id="bookInputs" class="grid"></div></div>
+ <label>د هر کتاب مکملې نمرې<input id="fullPerBook" type="number" min="1" value="100"></label><label>غیرحاضرۍ<input id="absences" type="number" min="0" value="0"></label>
+ <label>مکملې نمري<input id="totalMarks" readonly></label><label>اخیستل شوې نمري<input id="obtainedMarks" readonly></label>
+ <label>تقدیر / اوسط<input id="average" readonly></label><label>کیفیت<input id="quality" readonly></label>
+ <div class="wide actions"><button class="primary">نتیجه ثبتول</button><button type="reset" class="btn">پاکول</button></div></form></div>
+ <div class="panel"><h3>د امتحانونو لېست او د درجې درجه بندي</h3><div class="toolbar"><select id="examListGrade"></select><input id="examSearch" placeholder="د شاګرد نوم یا امتحان لټون"></div><div class="tablewrap"><table><thead><tr><th>رتبه</th><th>شاګرد</th><th>درجه</th><th>امتحان</th><th>اوسط</th><th>کیفیت</th><th>غیرحاضرۍ</th><th>کړنه</th></tr></thead><tbody id="examTable"></tbody></table></div><div id="gradeStats"></div></div>
+</section>
+
+<section class="page hidden" id="backup">
+ <div class="panel"><h3>بېک آپ</h3><p>خپل ټول معلومات په یوه فایل کې خوندي کړئ، او وروسته یې بېرته راوګرځوئ.</p><div class="actions"><button class="primary" id="makeBackup">بېک اپ اخیستل</button><label class="btn filebtn">زوړ بېک اپ راپورته کول<input type="file" id="restoreFile" accept=".json,application/json"></label><button class="btn" data-goto="students">د شاګردانو لېست ته تلل</button></div></div>
+</section>
+
+<section class="page hidden" id="services">
+ <div class="panel"><h3>خدمتونه</h3><div class="service-grid">
+ <button data-service="grade">۱ ـ درجه انتخابول</button><button data-service="id">۲ ـ د شاګرد ID کارډ</button><button data-service="excel">۳ ـ د شاګردانو Excel شیټ</button><button data-service="attendance">۴ ـ حاضري جوړول</button><button data-service="word">۵ ـ Word فایل</button><button data-service="annual">۶ ـ کلنی راپور</button><button data-service="daily">۷ ـ ورځنی راپور</button><button data-service="annualResults">۸ ـ د نتائجو کلنی راپور</button><button data-service="schoolPdf">۹ ـ د مدرسې معلومات PDF</button></div><div id="serviceOutput" class="service-output"></div></div>
+</section>
+
+<section class="page hidden" id="about">
+ <div class="panel about"><h2>زمونږ او د اپلیکېشن په اړه</h2><p>الحمدلله دا د شاګردانو د ثبت سیستم په نوم سافټویر مې تر ډېر زحمت وروسته د الله ج په کومک پوره کړ.</p><h3>جوړونکی: محمد هاشم سعید</h3><p>دلته تاسو کولای شئ شاګردان ثبت کړئ، عکسونه واخلئ، د مدرسې معلومات وساتئ، د استادانو نوملړ جوړ کړئ، امتحانونه او نتایج ثبت کړئ، درجه بندي وګورئ، حاضري او راپورونه جوړ کړئ، ID کارډ چاپ کړئ او بېک اپ واخلئ.</p><p>د واټساف له لارې اړیکه: <a href="https://wa.me/93708039965">0708039965</a></p><p>د زنګ له لارې اړیکه: <b dir="ltr">0708039965</b></p></div>
+</section>
+
+<section class="page hidden" id="settings">
+ <div class="panel"><h3>تنظیمات</h3><div class="actions"><button class="primary" id="lightMode">د ورځې حالت</button><button class="btn" id="darkMode">د شپې حالت</button><button class="btn danger" id="exitBtn2">سافټویر بندول</button><button class="btn" data-goto="home">کور مېنیو ته تلل</button></div><p class="muted">دا نسخه د ننوتلو پاسورډ نه لري.</p></div>
+</section>
+</main></div>
+<div id="printArea" class="print-area"></div><div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body></html>

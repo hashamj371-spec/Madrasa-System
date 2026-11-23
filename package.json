@@ -1,0 +1,30 @@
+{
+  "name": "madrasa-student-system",
+  "version": "1.0.0",
+  "description": "Offline Madrasa Student Management System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "af.hashamsaeed.madrasa",
+    "productName": "د شاګردانو د ثبت سیستم",
+    "asar": true,
+    "files": [
+      "**/*",
+      "!node_modules"
+    ],
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ],
+      "artifactName": "Madrasa-Student-System-${version}.${ext}"
+    }
+  }
+}
